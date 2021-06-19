@@ -1,6 +1,6 @@
-def prefilter_items(data, take_n_popular):
+def prefilter_items(data, item_features, take_n_popular):
     # Уберем самые популярные товары (их и так купят)
-    popularity = data_train.groupby('item_id')['user_id'].nunique().reset_index() / data_train['user_id'].nunique()
+    popularity = data.groupby('item_id')['user_id'].nunique().reset_index() / data['user_id'].nunique()
     popularity.rename(columns={'user_id': 'share_unique_users'}, inplace=True)
 
     top_popular = popularity[popularity['share_unique_users'] > 0.5].item_id.tolist()
@@ -19,7 +19,7 @@ def prefilter_items(data, take_n_popular):
     # Уберем слишком дорогие товарыs
 
     # ...
-
+    return data.sample(n=5000)
 
 def postfilter_items(user_id, recommednations):
     pass
